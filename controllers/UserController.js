@@ -2,11 +2,9 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const path = require('path');
 
 const issignin = (req, res, next) => {
-
-    console.log('at issignin');
-
     res.render('users/issignin.ejs', {
         issignin: true,
         username: req.username
@@ -75,13 +73,10 @@ function getToken(username) {
     const payload = {
         username
     }
-
-    const privateKey = fs.readFileSync('./keys/private.key')
-
+    const privateKey = fs.readFileSync(path.resolve(__dirname, '../keys/private.key'));
     const token = jwt.sign(payload, privateKey, {
         algorithm: 'RS256'
     })
-
     return token;
 }
 
